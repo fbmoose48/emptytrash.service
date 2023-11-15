@@ -1,0 +1,19 @@
+[Unit]
+Description = empty trash
+After = network.target
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+Type = simple
+PIDFile = /run/emptytrash.pid
+ExecStart = rm -r /home/*/.local/share/Trash/files/* && rm -r /home/*/.local/share/Trash/info/*
+
+Restart = on-failure
+RestartSec=5s
+
+ExecReload = /sbin/start-stop-daemon #determine if needed
+
+[Install]
+WantedBy = multi-user.target
